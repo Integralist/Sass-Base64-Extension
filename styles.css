@@ -25,3 +25,12 @@ span {
   height: 300px;
   width: 500px;
 }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/markmcdonnell\/Desktop\/BBC\/styles\.scss}line{font-family:\0000325}}
+b {
+  background: url("image.jpg") 0 0 repeat;
+  background-size: 500px;
+  display: block;
+  height: 300px;
+  width: 500px;
+}
