@@ -28,15 +28,15 @@ module Sass::Script::Functions
         absname = File.expand_path(fullpath)
         ext = File.extname(path)
 
-        # optimize image
-        if ext == '.gif' || ext == '.jpg' || ext == '.png'
+        # optimize image if it's a gif, jpg, png
+        if ext.index(%r{\.(?:gif|jpg|png)}) != nil
             # homebrew link to pngcrush is outdated so need to avoid pngcrush for now
             # also homebrew doesn't support pngout so we ignore that too!
             # The following links show the compression settings...
             # https://github.com/toy/image_optim/blob/master/lib/image_optim/worker/advpng.rb
             # https://github.com/toy/image_optim/blob/master/lib/image_optim/worker/optipng.rb
             # https://github.com/toy/image_optim/blob/master/lib/image_optim/worker/jpegoptim.rb
-            image_optim = ImageOptim.new(:pngcrush => false, :pngout => false, :advpng => {:level => 4}, :optipng => {:level => 7}, :jpegoptim => {:max_quality => 10}) 
+            image_optim = ImageOptim.new(:pngcrush => false, :pngout => false, :advpng => {:level => 4}, :optipng => {:level => 7}, :jpegoptim => {:max_quality => 1}) 
             
             # we can lose the ! and the method will save the image to a temp directory, otherwise it'll overwrite the original image
             image_optim.optimize_image!(fullpath)
