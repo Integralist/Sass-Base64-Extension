@@ -1,6 +1,6 @@
 require 'base64'
 require 'sass'
-# require 'smusher'
+require 'image_optim' # https://github.com/toy/image_optim
 
 =begin
     This script has been modified from: https://github.com/eighttrackmind/SASS-Base64
@@ -29,9 +29,17 @@ module Sass::Script::Functions
         ext = File.extname(path)
 
         # optimize image
-        # if ext == '.gif' || ext == '.jpg' || ext == '.png'
-        #     Smusher::optimize_image(absname)
-        # end
+        if ext == '.gif' || ext == '.jpg' || ext == '.png'
+            # homebrew link to pngcrush is outdated so need to avoid pngcrush for now
+            # also homebrew doesn't support pngout so we ignore that too!
+            # The following links show the compression settings...
+            # https://github.com/toy/image_optim/blob/master/lib/image_optim/worker/advpng.rb
+            # https://github.com/toy/image_optim/blob/master/lib/image_optim/worker/optipng.rb            
+            image_optim = ImageOptim.new(:pngcrush => false, :pngout => false, :advpng => {:level => 4}, :optipng => {:level => 7}) 
+            
+            # we can lose the ! and the method will save the image to a temp directory, otherwise it'll overwrite the original image
+            image_optim.optimize_image!(fullpath)
+        end
 
         # base64 encode the file
         file = File.open(fullpath, 'rb') # read mode & binary mode
