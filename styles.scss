@@ -1,0 +1,23 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    background: url64('image.png') 0 0 repeat pink;
+    padding: 0;
+    margin: 0;
+}
+
+div {
+    background: url64('A/image.png') 0 0 repeat;
+    height: 600px;
+    width: 800px;
+}
+
+span {
+    background: url64('A/B/image.png') 0 0 repeat;
+    border: 5px solid red;
+    display: block;
+    height: 300px;
+    width: 500px;
+}
