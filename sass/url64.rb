@@ -50,12 +50,21 @@ module Sass::Script::Functions
 
         if filesize < 31 # we're avoiding IE8 32kb data uri size restriction
             text_b64 = Base64.encode64(text).gsub(/\r/,'').gsub(/\n/,'')
-            contents = 'url(data:image/' + ext[1, ext.length-1] + ';base64,' + text_b64 + ')'
+            contents = 'url(data:image/' + mime(ext) + ';base64,' + text_b64 + ')'
         else
             contents = 'url(' + image.to_s + ')' # if larger than 32kb then we'll just return the original image path url
         end
 
         Sass::Script::String.new(contents)
+    end
+
+    def mime(extension)
+      case extension
+      when '.svg'
+        'image/svg+xml'
+      else
+        'image/' + extension[1, extension.length-1]
+      end
     end
 
     declare :url64, :args => [:string]
